@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markk - Barbearia da Garagem</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+</head>
+<body class="bg-gray-100">
+
+    <div id="default-carousel" class="relative w-full" data-carousel="slide">
+        <!-- Carousel wrapper -->
+        <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+             <!-- Item 1 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="img/barbearia-fotos1.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+            <!-- Item 2 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="img/barbearia-fotos2.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+            <!-- Item 3 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="img/barbearia-fotos3.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+            
+         
+        </div>
+        <!-- Slider indicators -->
+        <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 4" data-carousel-slide-to="3"></button>
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 5" data-carousel-slide-to="4"></button>
+        </div>
+        <!-- Slider controls -->
+        <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                </svg>
+                <span class="sr-only">Previous</span>
+            </span>
+        </button>
+        <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                </svg>
+                <span class="sr-only">Next</span>
+            </span>
+        </button>
+    </div>
+
+    <div class="bg-yellow-500 text-white py-4 text-center">
+        <h1 class="text-3xl font-bold">Barbearia da Garagem</h1>
+    </div>
+
+    <div class="container mx-auto py-10 text-center ">
+        <h1 class="text-4xl font-bold text-gray-800 mb-2">
+            <span class="text-yellow-400">Transforme</span> sua aparência
+        </h1>
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">
+            <span class="text-yellow-400">Revitalize</span> seu estilo
+        </h1>
+        <div class="py-4 px-6 bg-gray-50 shadow rounded-lg max-w-md mx-auto">
+            <h3 class="text-lg text-gray-600 mb-2">Aberto das <span class="text-yellow-500">09:00</span> às <span class="text-yellow-500">20:00</span></h3>
+            <h3 class="text-lg text-gray-600 mb-1">Venha visitar nosso estabelecimento</h3>
+            <h3 class="text-lg text-gray-600 mb-4 text-yellow-500">Endereço: Rua Santana 431, Agenor de Campos, Mongaguá, SP</h3>
+        </div>
+        <br>
+        <a href="agendtd.php">
+            <button class="bg-yellow-400 hover:bg-yellow-300 text-white font-bold py-4 px-10 rounded transition duration-300 shadow-md hover:shadow-lg">
+                <i class="fas fa-calendar-alt mr-2"></i> Agendar Corte
+            </button>
+        </a>
+        
+        <br><br><br>
+        
+        <a href="galeria.html">
+            <button class="bg-yellow-400 hover:bg-yellow-300 text-white font-bold py-4 px-10 rounded transition duration-300 shadow-md hover:shadow-lg">
+                <i class="fas fa-image mr-2"></i> Galeria de imagens
+            </button>
+        </a>
+        <br>
+        </div>
+        <section class="py-12 bg-gray-50 shadow" id="team">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="text-center">
+                <h2 class="text-base font-semibold text-yellow-500 tracking-wide uppercase">Nossa Equipe</h2>
+                <p class="mt-1 text-4xl font-extrabold text-gray-900 sm:text-5xl lg:text-6xl">Conheça o Time</p>
+                <p class="max-w-xl mt-5 mx-auto text-xl text-gray-500">Pessoas dedicadas a entregar o melhor serviço possível.
+                </p>
+              </div>
+              <div class="mt-10">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+                  <!-- Ricardo -->
+                  <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center">
+                    <img class="w-32 h-32 rounded-full border-4 border-yellow-500 object-cover mb-4"
+                      src="img/ricardo.jpeg" alt="Ricardo">
+                    <div class="text-center">
+                      <h3 class="text-xl font-semibold text-gray-900">Ricardo</h3>
+                      <p class="text-gray-500">Especialidade <span class="text-yellow-600">degradê</span> e <span
+                          class="text-yellow-600">desenhos</span></p>
+                      <p class="mt-2 text-gray-600">Olá pessoal, me chamo Ricardo e entrei no ramo em 2017 quando decidi que
+                        seria dono do meu próprio negócio. O começo não foi fácil, mas o céu é o limite.</p>
+                    </div>
+                  </div>
+                  <!-- Rubens -->
+                  <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center">
+                    <img class="w-32 h-32 rounded-full border-4 border-yellow-500 object-cover mb-4"
+                      src="img/rubens.jpeg" alt="Rubens">
+                    <div class="text-center">
+                      <h3 class="text-xl font-semibold text-gray-900">Rubens</h3>
+                      <p class="text-gray-500">Especialista em <span class="text-yellow-600"> Corte Social</span></p>
+                      <p class="mt-2 text-gray-600">Olá, me chamo Rubens e com mais de 30 anos no ramo, sou especialista em
+                        corte social. Amo o que faço e estou sempre aprendendo.</p>
+                    </div>
+                  </div>
+                  <!-- Matheus -->
+                  <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center">
+                    <img class="w-32 h-32 rounded-full border-4 border-yellow-500 object-cover mb-4"
+                      src="img/matheus.jpeg" alt="Matheus">
+                    <div class="text-center">
+                      <h3 class="text-xl font-semibold text-gray-900">Matheus</h3>
+                      <p class="text-gray-500">Especialidade em <span class="text-yellow-600">degradê</span></p>
+                      <p class="mt-2 text-gray-600">Olá, sou Matheus, estou começando minha jornada no ramo da barbearia e sou
+                        apaixonado por aprender e evoluir a cada dia.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        <footer class="bg-gray-800 text-white py-10 w-full text-center ">
+            <div class="container mx-auto">
+                <p>&copy; 2024 Barbearia da Garagem. Todos os direitos reservados.</p>
+            </div>
+        </footer>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markk - Meus Clientes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <div class="container mx-auto p-6">
+        <a href="logfunc.html" class="flex items-center mb-4 text-yellow-600">
+               <span class="ml-2">Voltar</span>
+        </a>
+
+        <div class="bg-yellow-400 text-white p-4 rounded-lg shadow-md text-center mb-6">
+            <h1 class="text-2xl font-bold">Meus Clientes</h1>
+        </div>
+
+        <div class="space-y-6">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-lg font-semibold">Dia: Segunda</h3>
+                        <h3 class="text-lg font-semibold">Horário: 17:00</h3>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button class="bg-green-500 text-white p-2 rounded hover:bg-green-400 transition" onclick="confirmCorte(event)">
+                            <span class="material-symbols-outlined">Confirmar</span>
+                        </button>
+                        <button class="bg-red-500 text-white p-2 rounded hover:bg-red-400 transition" onclick="confirmDelete(event)">
+                            <span class="material-symbols-outlined">Apagar</span>
+                        </button>
+                    </div>
+                </div>
+                <h3 class="font-semibold mt-4">Nome: Pedro Lima</h3>
+                <p>Número: 11 834391231</p>
+                <p>Tipo de Corte: Corte Clássico</p>
+                <p>Atendente: Rodrigo</p>
+                <p class="font-bold">Valor: R$ 35,00</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-lg font-semibold">Dia: Segunda</h3>
+                        <h3 class="text-lg font-semibold">Horário: 17:30</h3>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button class="bg-green-500 text-white p-2 rounded hover:bg-green-400 transition" onclick="confirmCorte(event)">
+                            <span class="material-symbols-outlined">Confirmar</span>
+                        </button>
+                        <button class="bg-red-500 text-white p-2 rounded hover:bg-red-400 transition" onclick="confirmDelete(event)">
+                            <span class="material-symbols-outlined">Apagar</span>
+                        </button>
+                    </div>
+                </div>
+                <h3 class="font-semibold mt-4">Nome: Raimundo Donato</h3>
+                <p>Número: 11 774378232</p>
+                <p>Tipo de Corte: Completão</p>
+                <p>Atendente: Rodrigo</p>
+                <p class="font-bold">Valor: R$ 50,00</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
