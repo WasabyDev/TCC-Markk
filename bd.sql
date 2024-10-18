@@ -21,7 +21,7 @@ CREATE TABLE usuarios (
     id_usuario INT PRIMARY KEY AUTO_INCREMENT,
     nm_usuario VARCHAR(100) NOT NULL,
     nr_telefone VARCHAR(15),
-    nm_senha VARCHAR(255) NOT NULL
+    nm_senha VARCHAR(12) NOT NULL
 );
 
 -- Criar tabela de funcionários

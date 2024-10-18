@@ -1,3 +1,28 @@
+<?php
+if (isset($_POST['submit'])) {
+    include_once('config.php');
+
+    $nm_usuario = mysqli_real_escape_string($conn, $_POST['nm_usuario']);
+    $nr_usuario = mysqli_real_escape_string($conn, $_POST['nr_usuario']);
+    $nm_senha = mysqli_real_escape_string($conn, $_POST['nm_senha']);
+
+    // Consulta para inserir dados
+    $cadastrar = mysqli_query($conn, "INSERT INTO usuarios (nm_usuario, nr_telefone, nm_senha) VALUES ('$nm_usuario', '$nr_usuario', '$nm_senha')");
+
+    // Se o cadastro for bem-sucedido, redireciona para inicio.html
+    if ($cadastrar) {
+        header("Location: inicio.html");
+        exit();
+    } else {
+        echo "Erro ao cadastrar. Tente novamente.";
+        echo "Erro: " . mysqli_error($conn); // Adiciona essa linha para ver o erro específico
+    }
+
+    // Fecha a conexão
+    $conn->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

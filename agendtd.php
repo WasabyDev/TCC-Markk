@@ -1,18 +1,5 @@
 <?php
-// Conexão com o banco de dados
-$servername = "localhost"; // Endereço do servidor (pode ser 'localhost')
-$username = "root"; // Seu usuário do MySQL
-$password = "root"; // Sua senha do MySQL
-$dbname = "barbeariaricardo"; // Nome do banco de dados
-
-// Criar conexão
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verificar a conexão
-if ($conn->connect_error) {
-    die("Conexão falhou: " . $conn->connect_error);
-}
-
+include_once('config.php'); // Inclua a configuração
 // Verificar se o formulário foi enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Captura dos dados do formulário
