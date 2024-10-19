@@ -34,11 +34,11 @@
         </button>
       </div>
 
-      <span class="block mt-4 text-yellow-400 font-bold cursor-pointer text-center" onclick="showAlert()">Esqueci o código</span>
+      <span class="block mt-4 text-gray-800 font-bold cursor-pointer text-center" onclick="showAlert()">Esqueci o código</span>
 
       <div class="mt-6">
-        <a href="logfunc.html">
-          <button class="w-full bg-yellow-400 text-white font-bold py-2 rounded-md hover:bg-blue-500 transition">Entrar</button>
+        <a href="logfunc.php">
+          <button class="w-full bg-yellow-400 hover:bg-yellow-600 text-white font-bold py-2 rounded-md transition">Entrar</button>
         </a>
       </div>
     </div>
@@ -76,5 +76,4 @@
 });}
   </script>
 </body>
-
 </html>

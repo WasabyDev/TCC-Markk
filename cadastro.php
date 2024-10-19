@@ -40,7 +40,7 @@ if (isset($_POST['submit'])) {
         <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-8 relative"> <!-- Div branca -->
 
             <!-- Botão Administrador no canto superior direito -->
-            <a href="loginfunc.html" class="absolute top-4 right-4">
+            <a href="loginfunc.php" class="absolute top-4 right-4">
                 <button class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">
                     Administrador
                 </button>

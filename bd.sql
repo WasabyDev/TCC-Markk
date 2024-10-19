@@ -41,3 +41,5 @@ CREATE TABLE tipos_corte (
 );
 
 select * from usuarios;
+
+
