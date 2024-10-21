@@ -55,26 +55,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body class="bg-gray-100">
 
-<div class="flex items-center justify-between p-4 bg-yellow-400 text-white shadow-lg">
-    <a href="inicio.html" class="text-white flex items-center">
-        <span class="ml-2">Voltar</span>
+<div class="flex items-center p-4 bg-yellow-400 text-white">
+    <a href="inicio.html" class="flex items-center mr-4">
+        <svg class="w-8 h-8 text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4l4 4"/>
+        </svg>
     </a>
-    <h1 class="text-xl font-bold">Agendar Corte</h1>
-    <div></div>
+    <h1 class="text-3xl font-bold flex-grow text-center">Agendamento</h1>
+    <div class="mr-5"></div> <!-- Garante que o H1 fique centralizado -->
 </div>
 
-<div class="container mx-auto py-10">
-    <form action="agendtd.php" method="post" class="bg-white shadow-md rounded-lg p-8">
+
+<div class="container mx-auto py-10 px-4"> <!-- Adicionei px-4 para espaçamento lateral -->
+    <form action="agendtd.php" method="post" class="bg-gray-800 shadow-md rounded-lg p-8 space-y-4"> 
         <div class="mb-6">
-            <label for="data" class="block text-gray-700 font-bold mb-2">Selecione a data:</label>
-            <input type="date" id="data" name="data" onchange="updateDisplayDate(this.value); verificarHorariosOcupados(this.value);" min="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d', strtotime('+7 days')); ?>" class="border border-gray-300 rounded-lg w-full py-2 px-3 focus:outline-none focus:ring focus:ring-yellow-400" required>
-            <p id="displayDate" class="mt-2 text-gray-600"></p>
+            <label for="data" class="block text-gray-200 font-bold mb-2">Selecione a data:</label>
+            <input type="date" id="data" name="data" onchange="updateDisplayDate(this.value); verificarHorariosOcupados(this.value);" min="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d', strtotime('+7 days')); ?>" class="border border-gray-300 rounded-lg w-full py-2 px-3 bg-white text-gray-700 focus:outline-none focus:ring focus:ring-yellow-400" required>
+            <p id="displayDate" class="mt-2 text-gray-300"></p>
         </div>
 
         <div class="mb-6">
-            <label class="block text-gray-700 font-bold mb-2">Selecione o horário:</label>
+            <label class="block text-gray-200 font-bold mb-2">Selecione o horário:</label>
             <div class="relative">
-                <button type="button" id="dropdownButtonHorario" onclick="toggleDropdownHorario()" class="border border-gray-300 rounded-lg w-full py-2 px-3 text-left">
+                <button type="button" id="dropdownButtonHorario" onclick="toggleDropdownHorario()" class="border border-gray-300 rounded-lg w-full py-2 px-3 text-left bg-white text-gray-700">
                     Horários Disponíveis
                 </button>
                 <div class="absolute z-10 hidden bg-white border border-gray-300 mt-1 rounded-lg shadow-lg w-full max-h-60 overflow-y-auto" id="myDropdownHorario"></div>
@@ -82,9 +85,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
         <div class="mb-6">
-            <label class="block text-gray-700 font-bold mb-2">Selecione o corte:</label>
+            <label class="block text-gray-200 font-bold mb-2">Selecione o corte:</label>
             <div class="relative">
-                <button type="button" id="dropdownButtonCuts" onclick="toggleDropdownCuts()" class="border border-gray-300 rounded-lg w-full py-2 px-3 text-left">
+                <button type="button" id="dropdownButtonCuts" onclick="toggleDropdownCuts()" class="border border-gray-300 rounded-lg w-full py-2 px-3 text-left bg-white text-gray-700">
                     Serviços Disponíveis
                 </button>
                 <div class="absolute z-10 hidden bg-white border border-gray-300 mt-1 rounded-lg shadow-lg" id="myDropdownCuts">
@@ -101,9 +104,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="hidden" id="hr_corte" name="hr_corte" value="">
         
         <div class="mb-6">
-            <label class="block text-gray-700 font-bold mb-2">Selecione o Atendente:</label>
+            <label class="block text-gray-200 font-bold mb-2">Selecione o Atendente:</label>
             <div class="relative">
-                <button type="button" id="dropdownButtonEmployees" onclick="toggleDropdownEmployees()" class="border border-gray-300 rounded-lg w-full py-2 px-3 text-left">
+                <button type="button" id="dropdownButtonEmployees" onclick="toggleDropdownEmployees()" class="border border-gray-300 rounded-lg w-full py-2 px-3 text-left bg-white text-gray-700">
                     Atendentes
                 </button>
                 <div class="absolute z-10 hidden bg-white border border-gray-300 mt-1 rounded-lg shadow-lg" id="myDropdownEmployees">
@@ -116,25 +119,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
         <input type="hidden" id="selectedEmployee" name="selectedEmployee" value="">
-
+        <br><br>
         <div class="mb-6">
-            <label class="text-gray-700 font-bold">Confirme as informações antes de agendar:</label>
-            <p class="text-gray-600">Data: <span class="font-semibold" id="displayDateOutput"></span></p>
-            <p class="text-gray-600">Horário: <span class="font-semibold" id="selectedHorario"></span></p>
-            <p class="text-gray-600">Atendente: <span class="font-semibold" id="selectedEmployeeDisplay"></span></p>
-            <h2 class="text-2xl font-bold mt-4">Total: <span class="font-semibold" id="selectedCut">**,**</span></h2>
+            <label class="text-gray-200 font-bold">Confirme as informações antes de agendar:</label>
+            <p class="text-gray-300">Data: <span class="font-semibold" id="displayDateOutput"></span></p>
+            <p class="text-gray-300">Horário: <span class="font-semibold" id="selectedHorario"></span></p>
+            <p class="text-gray-300">Atendente: <span class="font-semibold" id="selectedEmployeeDisplay"></span></p>
+            <h2 class="text-2xl font-bold mt-4 text-gray-300">Total: <span class="font-semibold" id="selectedCut">**,**</span></h2>
         </div>
-
+        <br><br>
         <div class="flex justify-center mb-6">
             <button type="submit" id="submit" name="agendar" class="bg-yellow-400 hover:bg-yellow-600 text-white font-bold py-5 px-20 rounded focus:outline-none">Agendar</button>
         </div>
     </form>
 </div>
-<br><br>
-<footer class="bg-gray-800 text-white py-10 bottom-0 w-full text-center">
-    <div class="container mx-auto">
-        <p>&copy; 2024 Barbearia da Garagem. Todos os direitos reservados.</p>
-    </div>
+<br>
+<br>
+<br>
+
+<footer class="bg-gray-800 py-10 bottom-0 w-full text-center">
+  <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+      <div class="sm:flex sm:items-center sm:justify-between">
+        <div class="flex items-center mb-4 sm:mb-0 rtl:space-x-reverse">
+          <img src="img/logo_markk.png" class="h-20" />
+          <span class="self-center text-2xl font-semibold whitespace-nowrap dark text-white">
+              Equipe MAR<span class="text-blue-700">KK</span>
+          </span>
+          <div class="ml-auto text-white">
+              <a href="https://www.instagram.com/markk.tcc/" class="hover:underline me-4 md:me-6">
+                <i class="fab fa-instagram fa-1x mr-1"></i>
+                Instagram da Equipe
+              </a>
+          </div>
+      </div>
+      <div class="text-white text-left">
+          <p>Transforme sua experiência com a MARKK!</p>
+      </div>
+      
+          <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-white sm:mb-0 dark:text-gray-400">
+            <li>
+              
+          </li>
+          
+      </div>
+      <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+      <span class="block text-sm text-white sm:text-center dark:text-gray-400">© 2024 <a href="" class="hover:underline">MARKK</a>. All Rights Reserved.</span>
+  </div>
 </footer>
 
 <script>
@@ -227,5 +257,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         verificarHorariosOcupados(document.getElementById('data').value);
     };
 </script>
+
+
 </body>
 </html>

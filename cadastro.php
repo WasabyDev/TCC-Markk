@@ -37,20 +37,17 @@ if (isset($_POST['submit'])) {
 
 <body class="bg-gray-100">
     <div class="flex items-center justify-center min-h-screen">
-        <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-8 relative"> <!-- Div branca -->
-
-            <!-- Botão Administrador no canto superior direito -->
-            <a href="loginfunc.php" class="absolute top-4 right-4">
-                <button class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+    <a href="loginfunc.php" class="absolute top-5 right-4">
+                <button class="bg-gray-800  text-white font-bold py-2 px-4 rounded transition duration-300">
                     Administrador
                 </button>
             </a>
-
+        <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-8 relative"> <!-- Div branca -->
             <div class="p-8"> <!-- Div para h1 e h4 -->
                 <h1 class="text-4xl font-bold text-yellow-400 mb-4">Bem Vindo!!!</h1>
                 <h4 class="font-bold text-left text-yellow-400 mb-4">Estamos dedicados a oferecer o melhor serviço para você!</h4>
             </div>
-            <h3 class="text-2xl text-center font-bold text-yellow-400 mb-4">Cadastre-se</h3>
+            <h3 class="text-2xl text-center font-bold text-gray-800 mb-4">Cadastre-se</h3>
             <form action="cadastro.php" method="POST">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-semibold mb-2" for="nm_usuario">Nome</label>
@@ -81,15 +78,9 @@ if (isset($_POST['submit'])) {
                     <button class="w-full bg-yellow-400 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-yellow-400" type="submit" id="submit" name="submit">Cadastrar</button>
                 </div>
             </form>
-
-            <p class="text-center text-gray-500 mt-4">Já tem uma conta? <a href="login.html" class="text-yellow-600 hover:underline">Faça login</a></p>
         </div>
     </div>
-    <footer class="bg-gray-800 text-white py-5 bottom-0 w-full text-center">
-        <div class="container mx-auto">
-            <p>&copy; 2024 Barbearia da Garagem. Todos os direitos reservados.</p>
-        </div>
-    </footer>
+    
 
 </body>
 </html>

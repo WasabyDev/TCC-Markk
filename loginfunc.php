@@ -15,7 +15,12 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 </head>
 
-<body class="bg-gray-100 font-DM-Sans flex items-center justify-center min-h-screen">
+<body class="bg-gray-100 font-DM-Sans flex items-center justify-center min-h-screen relative">
+  <!-- Ícone de flecha -->
+  <a href="cadastro.php" class="absolute top-4 left-4 text-gray-600 transition">
+    <span class="material-icons">arrow_back</span>
+  </a>
+
   <div class="bg-white shadow-md rounded-lg p-8 max-w-md w-full">
     <h1 class="text-2xl font-bold text-center text-gray-800">
       <span class="text-yellow-400">Bem Vindo</span><br> Administrador!
@@ -37,9 +42,7 @@
       <span class="block mt-4 text-gray-800 font-bold cursor-pointer text-center" onclick="showAlert()">Esqueci o código</span>
 
       <div class="mt-6">
-        <a href="logfunc.php">
-          <button class="w-full bg-yellow-400 hover:bg-yellow-600 text-white font-bold py-2 rounded-md transition">Entrar</button>
-        </a>
+        <button class="w-full bg-yellow-400 hover:bg-yellow-600 text-white font-bold py-2 rounded-md transition" onclick="validateLogin()">Entrar</button>
       </div>
     </div>
   </div>
@@ -68,12 +71,30 @@
 
     function showAlert() {
       Swal.fire({
-  title: "Código de Verificação enviado com sucesso!",
-  text: "Verifique sua caixa de Email",
-  icon: "info",
-        
+        title: "Código de Verificação enviado com sucesso!",
+        text: "Verifique sua caixa de Email",
+        icon: "info",
+      });
+    }
 
-});}
+    function validateLogin() {
+      const nameInput = document.getElementById('name').value.trim().toLowerCase();
+      const codeInput = document.getElementById('codigo').value;
+
+      const validNames = ['ricardo', 'matheus', 'rubens'];
+      const isNameValid = validNames.includes(nameInput);
+      const isCodeValid = codeInput === '2024';
+
+      if (isNameValid && isCodeValid) {
+        window.location.href = "logfunc.php"; // Redireciona para a página de login
+      } else {
+        Swal.fire({
+          title: "Erro!",
+          text: "Nome ou código inválidos. Tente novamente.",
+          icon: "error",
+        });
+      }
+    }
   </script>
 </body>
 </html>
