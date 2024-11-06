@@ -69,13 +69,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container mx-auto py-10 px-4"> <!-- Adicionei px-4 para espaçamento lateral -->
     <form action="agendtd.php" method="post" class="bg-gray-800 shadow-md rounded-lg p-8 space-y-4"> 
         <div class="mb-6">
-            <label for="data" class="block text-gray-200 font-bold mb-2">Selecione a data:</label>
+            <label for="data" class="block text-gray-200 font-bold mb-2">Selecione a Data:</label>
             <input type="date" id="data" name="data" onchange="updateDisplayDate(this.value); verificarHorariosOcupados(this.value);" min="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d', strtotime('+7 days')); ?>" class="border border-gray-300 rounded-lg w-full py-2 px-3 bg-white text-gray-700 focus:outline-none focus:ring focus:ring-yellow-400" required>
             <p id="displayDate" class="mt-2 text-gray-300"></p>
         </div>
 
         <div class="mb-6">
-            <label class="block text-gray-200 font-bold mb-2">Selecione o horário:</label>
+            <label class="block text-gray-200 font-bold mb-2">Selecione o Horário:</label>
             <div class="relative">
                 <button type="button" id="dropdownButtonHorario" onclick="toggleDropdownHorario()" class="border border-gray-300 rounded-lg w-full py-2 px-3 text-left bg-white text-gray-700">
                     Horários Disponíveis
@@ -85,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
         <div class="mb-6">
-            <label class="block text-gray-200 font-bold mb-2">Selecione o corte:</label>
+            <label class="block text-gray-200 font-bold mb-2">Selecione o Serviço:</label>
             <div class="relative">
                 <button type="button" id="dropdownButtonCuts" onclick="toggleDropdownCuts()" class="border border-gray-300 rounded-lg w-full py-2 px-3 text-left bg-white text-gray-700">
                     Serviços Disponíveis
@@ -118,6 +118,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
 
+        <div class="mb-6">
+    <div class="relative">
+        <label class="block text-gray-200 font-bold mb-2">Selecione o Método de Pagamento:</label>
+        <!-- Botão para mostrar o método selecionado -->
+        <button type="button" id="dropdownButtonmetods" onclick="toggleDropdownmetods()" class="border border-gray-300 rounded-lg w-full py-2 px-3 text-left bg-white text-gray-700">
+            Serviços Disponíveis
+        </button>
+        <!-- Dropdown de métodos de pagamento -->
+        <div class="absolute z-10 hidden bg-white border border-gray-300 mt-1 rounded-lg shadow-lg w-full" id="myDropdownmetods">
+            <a href="#" onclick="selectMetods('Dinheiro')" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 text-left">Dinheiro</a>
+            <a href="#" onclick="selectMetods('Pix')" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 text-left">Pix</a>
+            <a href="#" onclick="selectMetods('Cartão Débito/Crédito')" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 text-left">Cartão Débito/Crédito</a>
+        </div>
+    </div>
+</div>
+
         <input type="hidden" id="selectedEmployee" name="selectedEmployee" value="">
         <br><br>
         <div class="mb-6">
@@ -125,6 +141,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p class="text-gray-300">Data: <span class="font-semibold" id="displayDateOutput"></span></p>
             <p class="text-gray-300">Horário: <span class="font-semibold" id="selectedHorario"></span></p>
             <p class="text-gray-300">Atendente: <span class="font-semibold" id="selectedEmployeeDisplay"></span></p>
+            <p class="text-gray-300">Forma de Pagamento: <span class="font-semibold" id="displayPaymentMethod"></span></p>
+            
             <h2 class="text-2xl font-bold mt-4 text-gray-300">Total: <span class="font-semibold" id="selectedCut">**,**</span></h2>
         </div>
         <br><br>
@@ -177,7 +195,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         horariosOcupados = dataOcupados.horarios;
         gerarHorarios(); // Regenerar os horários disponíveis após a verificação
     }
-
+     
     function updateDisplayDate(data) {
         document.getElementById('displayDateOutput').textContent = data;
     }
@@ -256,6 +274,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         gerarHorarios();
         verificarHorariosOcupados(document.getElementById('data').value);
     };
+/// Função para alternar a visibilidade do dropdown
+function toggleDropdownmetods() {
+    var dropdown = document.getElementById("myDropdownmetods");
+    dropdown.classList.toggle("hidden"); // Alterna entre visível e oculto
+}
+
+// Função para selecionar um método de pagamento e exibir abaixo do dropdown
+function selectMetods(paymentMethod) {
+    // Fecha o dropdown
+    var dropdown = document.getElementById("myDropdownmetods");
+    dropdown.classList.add("hidden");
+
+    // Atualiza o texto do botão com o método selecionado
+    document.getElementById("dropdownButtonmetods").textContent = paymentMethod;
+
+    // Exibe o método selecionado no <span> dentro do parágrafo
+    var displayElement = document.getElementById("displayPaymentMethod");
+    displayElement.innerHTML = paymentMethod; // Atualiza o conteúdo do <span> com o método selecionado
+}
+
+
 </script>
 
 
