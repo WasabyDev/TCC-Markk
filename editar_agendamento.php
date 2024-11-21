@@ -32,13 +32,7 @@ $usuarios = $conn->query("SELECT nm_usuario, nr_telefone FROM usuarios");
 </head>
 <body class="bg-gray-100 font-sans">
 <div class="flex items-center p-4 bg-yellow-400 text-white">
-    <a href="inicio.html" class="flex items-center mr-4">
-        <svg class="w-8 h-8 text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4l4 4"/>
-        </svg>
-    </a>
-    <h1 class="text-3xl font-bold flex-grow text-center">Serviços Agendados Anteriormente</h1>
-    <div class="mr-5"></div> <!-- Garante que o H1 fique centralizado -->
+    <h1 class="text-3xl font-bold flex-grow text-center">Meus Clientes</h1>
 </div>
 
 <!-- Formulário de Pesquisa -->
@@ -46,7 +40,12 @@ $usuarios = $conn->query("SELECT nm_usuario, nr_telefone FROM usuarios");
     <div class="mb-6">
         <form method="POST" action="">
             <div class="flex items-center space-x-2">
-                <!-- Seu formulário pode continuar aqui -->
+                <input class="w-64 p-2 border rounded-lg" type="text" name="nome_atendente" placeholder="Pesquisar por atendente" value="<?php echo htmlspecialchars($nome_atendente); ?>">
+                <button type="submit" class="bg-yellow-400 text-white p-2 rounded-lg hover:bg-yellow-500 transition">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
+                    </svg>
+                </button>
             </div>
         </form>
     </div>
@@ -55,12 +54,6 @@ $usuarios = $conn->query("SELECT nm_usuario, nr_telefone FROM usuarios");
 <div class="space-y-6 mx-4"> <!-- Adiciona margens laterais -->
     <?php while($cortes_cads = mysqli_fetch_assoc($result)) { ?>
         <div class="relative bg-gray-800 text-white p-6 rounded-lg shadow-lg agendamento">
-            <button onclick="cancelService(event, this)" class="absolute top-4 right-4 inline-flex items-center px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-                Cancelar Serviço
-            </button>
             <div class="flex justify-between items-center">
                 <div>
                     <h3 class="text-lg font-semibold">Data: <span class="font-normal"><?php echo $cortes_cads['dt_corte']; ?></span></h3>
@@ -91,20 +84,43 @@ $usuarios = $conn->query("SELECT nm_usuario, nr_telefone FROM usuarios");
             <p>Tipo de Corte: <span class="font-normal"><?php echo $cortes_cads['nm_corte']; ?></span></p>
             <p>Forma de Pagamento: </p>
             <p class="font-bold">Valor: <span class="font-normal"><?php echo $cortes_cads['vl_corte']; ?></span></p>
+
+            <!-- Botões de Editar e Excluir -->
+            <div class="mt-4 flex justify-end space-x-4">
+<!-- Botão Editar -->
+<button  
+    class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+    onclick="window.location.href='editar_form.php?id=<?php echo $cortes_cads['id_horario']; ?>'">
+    Editar 
+</button>
+
+
+                <!-- Botão Excluir -->
+                <button 
+                    class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+                    onclick="cancelService(event, this)">
+                    Cancelar
+                </button>
+            </div>
         </div>
     <?php } ?>
 </div>
+<?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
+    <div class="bg-green-500 text-white p-4 mb-4 rounded-lg">
+        Agendamento atualizado com sucesso!
+    </div>
+<?php endif; ?>
+
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    function cancelService(event, button) {
+     function cancelService(event, button) {
         event.preventDefault(); // Previne o comportamento padrão do botão
 
         // Solicitar motivo para o cancelamento
         Swal.fire({
-            title: "Informe o motivo do cancelamento",
+            title: "Informe o motivo do cancelamento abaixo",
             input: 'textarea',
-            inputLabel: 'Motivo do cancelamento',
             inputPlaceholder: 'Descreva o motivo aqui...',
             showCancelButton: true,
             confirmButtonText: 'Confirmar Cancelamento',
