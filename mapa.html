@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mapa com Leaflet</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <style>
+      #map {
+        height: 500px;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Rua Santana 431, Agenor de Campos, Mongaguá, SP</h1>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+      // Inicializa o mapa e define o centro e o nível de zoom
+      var map = L.map('map').setView([-24.0643, -46.5954], 15);
+
+      // Adiciona a camada de mapa do OpenStreetMap
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      // Adiciona um marcador na localização da Rua Santana
+      L.marker([-24.0643, -46.5954]).addTo(map)
+        .bindPopup('Rua Santana, 431<br>Agenor de Campos<br>Mongaguá, SP')
+        .openPopup();
+    </script>
+  </body>
+</html>

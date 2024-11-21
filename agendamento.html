@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento - Loja Tal</title>
+    <link rel="stylesheet" href="/public/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+</head>
+<body class="bg-gray-100">
+
+    <div class="carrossel mb-4">
+        <div class="cont-carrossel overflow-hidden rounded-lg shadow-lg">
+            <img class="img-carrossel w-full" src="/img/2319a2cc-2fb1-47b6-92d1-38527fb3fde3.jfif" alt="">
+            <img class="img-carrossel w-full" src="/img/__c.jfif" alt="">
+            <img class="img-carrossel w-full" src="" alt="">
+        </div>
+    </div>
+
+    <div class="bg-yellow-400 text-white p-4 rounded-lg shadow-lg mb-4 text-center">
+        <h1 class="text-2xl font-bold">Loja Tal</h1>
+    </div>
+
+    <div class="container-agendamento p-6 bg-white rounded-lg shadow-lg">
+        <h1 class="text-xl font-bold mb-4">Agendar Serviço</h1>
+        
+        <div class="mb-4">
+            <button id="dropdownButton" class="dropbtn w-full text-left border border-gray-300 rounded-lg p-3 bg-yellow-400 hover:bg-yellow-300 focus:outline-none" onclick="toggleDropdown()">
+                Selecione um Dia
+            </button>
+            <div id="myDropdown" class="dropdown-content hidden mt-1 rounded-lg shadow-lg bg-white border border-gray-300">
+                <a href="#" onclick="selectOption('Segunda')" class="block px-4 py-2 hover:bg-gray-200">Segunda</a>
+                <a href="#" onclick="selectOption('Terça')" class="block px-4 py-2 hover:bg-gray-200">Terça</a>
+                <a href="#" onclick="selectOption('Quarta')" class="block px-4 py-2 hover:bg-gray-200">Quarta</a>
+                <a href="#" onclick="selectOption('Quinta')" class="block px-4 py-2 hover:bg-gray-200">Quinta</a>
+                <a href="#" onclick="selectOption('Sexta')" class="block px-4 py-2 hover:bg-gray-200">Sexta</a>
+                <a href="#" onclick="selectOption('Sábado')" class="block px-4 py-2 hover:bg-gray-200">Sábado</a>
+                <a href="#" onclick="selectOption('Domingo')" class="block px-4 py-2 hover:bg-gray-200">Domingo</a>
+            </div>
+        </div>
+
+        <div id="horariosContainer" class="mb-4">
+            <h3 class="text-lg font-semibold">Escolher Horário</h3>
+            <select id="horaSelect" class="border border-gray-300 rounded-lg w-full p-2 mt-2">
+                <!-- Horários serão preenchidos dinamicamente -->
+            </select>
+        </div>
+        
+        <a href="/src/pages/agenda/agenda.html">
+            <button onclick="bookService()" class="btn-uni w-full bg-yellow-400 hover:bg-yellow-300 text-white font-bold py-2 rounded">
+                Confirmar
+            </button>
+        </a>
+    </div>
+
+    <script src="/public/script.js"></script>
+</body>
+</html>

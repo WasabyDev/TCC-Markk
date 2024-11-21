@@ -1,0 +1,252 @@
+function toggleDropdown() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+function selectOption(optionText) {
+    document.getElementById("dropdownButton").textContent = optionText;
+    document.getElementById("selectedOption").textContent = `Dia selecionado: ${optionText}`;
+    document.getElementById("horaAbertura").value = "09:00"; // Resetar valor padrão
+    document.getElementById("horaFechamento").value = "18:00"; // Resetar valor padrão
+    document.getElementById("myDropdown").classList.remove("show");
+}
+
+// Salva os horários selecionados para o dia atual
+function saveHours() {
+    const diaSelecionado = document.getElementById("dropdownButton").textContent;
+    if (diaSelecionado === 'Selecione um Dia') {
+        alert('Por favor, selecione um dia primeiro.');
+        return;
+    }
+
+    const abertura = document.getElementById("horaAbertura").value;
+    const fechamento = document.getElementById("horaFechamento").value;
+    if (abertura >= fechamento) {
+        alert('O horário de abertura deve ser antes do horário de fechamento.');
+        return;
+    }
+
+    const horarios = `${abertura} - ${fechamento}`;
+    document.getElementById("selectedOption").textContent = `Dia selecionado: ${diaSelecionado} (Horário: ${horarios})`;
+}
+
+// Fecha o dropdown se o usuário clicar fora dele
+window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        for (var i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+}
+
+------------------------------------------------
+
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    width: 400px; /* Largura igual à do dropdown */
+    box-sizing: border-box; /* Inclui o padding e a borda na largura total */
+}
+
+/* Contêiner do dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Estilo do conteúdo do dropdown */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    width: 400px; /* Largura igual à do botão */
+    height: auto; /* Ajusta a altura automaticamente */
+    max-height: 300px; /* Altura máxima com rolagem se necessário */
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    left: 0;
+    top: 100%;
+}
+
+/* Estilo dos itens do dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    width: 100%; /* Largura completa do dropdown */
+    box-sizing: border-box; /* Inclui o padding na largura total */
+}
+
+/* Estilo dos itens do dropdown quando o cursor passa por cima */
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Adiciona a classe show para exibir o dropdown */
+.show {
+    display: block;
+}
+
+/* Estilo do elemento para exibir a opção selecionada */
+.dia-selecionado {
+    display: block;
+    position: relative;
+    background-color: #f9f9f9;
+    width: 400px; /* Largura igual à do botão */
+    height: auto; /* Ajusta a altura automaticamente */
+    max-height: 300px; /* Altura máxima com rolagem se necessário */
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    margin-top: 10px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    padding: 16px;
+}
+
+/* Estilo da seção de horários */
+.horarios-container {
+    margin-top: 20px;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    width: 400px;
+    box-sizing: border-box;
+}
+
+.horarios-container label {
+    display: block;
+    margin: 10px 0 5px;
+    font-size: 16px;
+}
+
+.horarios-container select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.horarios-container button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.horarios-container button:hover {
+    background-color: #45a049;
+}
+
+----------------------------------
+
+    <div class="dropdown">
+        <button id="dropdownButton" class="dropbtn" onclick="toggleDropdown()">Selecione um Dia</button>
+        <div id="myDropdown" class="dropdown-content">
+            <a href="#" onclick="selectOption('Segunda')">Segunda</a>
+            <a href="#" onclick="selectOption('Terça')">Terça</a>
+            <a href="#" onclick="selectOption('Quarta')">Quarta</a>
+            <a href="#" onclick="selectOption('Quinta')">Quinta</a>
+            <a href="#" onclick="selectOption('Sexta')">Sexta</a>
+            <a href="#" onclick="selectOption('Sábado')">Sábado</a>
+            <a href="#" onclick="selectOption('Domingo')">Domingo</a>
+        </div>
+    </div>
+
+    <div id="selectedOption" class="dia-selecionado">Dia selecionado: Nenhum</div>
+
+    <div id="horariosContainer" class="horarios-container">
+        <h3>Definir Horários</h3>
+        <label for="horaAbertura">Horário de Abertura:</label>
+        <select id="horaAbertura">
+            <option value="09:00">09:00</option>
+            <option value="10:00">10:00</option>
+            <option value="11:00">11:00</option>
+            <option value="12:00">12:00</option>
+            <option value="13:00">13:00</option>
+            <option value="14:00">14:00</option>
+            <option value="15:00">15:00</option>
+            <option value="16:00">16:00</option>
+            <option value="17:00">17:00</option>
+        </select>
+
+        <label for="horaFechamento">Horário de Fechamento:</label>
+        <select id="horaFechamento">
+            <option value="10:00">10:00</option>
+            <option value="11:00">11:00</option>
+            <option value="12:00">12:00</option>
+            <option value="13:00">13:00</option>
+            <option value="14:00">14:00</option>
+            <option value="15:00">15:00</option>
+            <option value="16:00">16:00</option>
+            <option value="17:00">17:00</option>
+            <option value="18:00">18:00</option>
+        </select>
+
+        <button onclick="saveHours()">Salvar Horários</button>
+    </div>
+    <div id="selectedOption" class="dia-selecionado">Nenhum dia selecionado</div> <!-- Novo elemento para exibir a opção selecionada -->
+    </div>  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ///////////////////
+
+    importante 
+
+    <?php
+
+
+    if(isset($_POST['btn_cadastrar']))
+    {
+        //print_r($_POST['nm_usuario']);
+        // print_r($_POST['nr_usuario']);
+        // print_r($_POST['nm_senha']);
+    
+
+        include_once '../../config.php'; // Caminho relativo correto para acessar config.php
+
+
+    $nm_usuario = $_POST['nm_usuario'];
+    $nr_usuario = $_POST['nr_usuario'];
+    $nm_senha = $_POST['nm_senha'];
+
+    $result = mysqli_query($conexao, "INSERT INTO login_usuarios(nm_usuario,nr_usuario,nm_senha) VALUES ('$nm_usuario', '$nr_usuario', '$nm_senha' ) ");
+    }
+?>
