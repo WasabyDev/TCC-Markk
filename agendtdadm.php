@@ -1,33 +1,52 @@
 <?php
-include_once('config.php'); // Inclua a configuração
+// Inclua o arquivo de configuração para o banco de dados
+include_once('config.php');
 
-// Verificar se o ID foi passado na URL
-if (isset($_GET['id'])) {
-    $id_horario = $_GET['id'];  // Usando id_horario em vez de id_agendamento
+// Verificar se o formulário foi enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Captura dos dados do formulário
+    $data = $_POST['data'] ?? '';
+    $horario = $_POST['hr_corte'] ?? '';
+    $servico = $_POST['selectedService'] ?? ''; // Nome do corte
+    $valor = $_POST['vl_corte'] ?? '';
+    $atendente = $_POST['selectedEmployee'] ?? '';
+    $nm_forma_pagamento = $_POST['selectMetods'] ?? ''; // Método de pagamento
+    $fg_id_cortes = 1; // Substitua por um ID real de cortes
+    $fg_id_funcionario = 1; // Substitua por um ID real de funcionário
 
-    // Consultar o agendamento com base no id_horario
-    $sql = "SELECT * FROM agendamentos WHERE id_horario = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id_horario);  // "i" para inteiro
-    $stmt->execute();
-    $result = $stmt->get_result();
+    // Substitui vírgula por ponto no valor do corte
+    $valor = str_replace(',', '.', $valor);
 
-    // Verificar se a consulta retornou algum agendamento
-    if ($result->num_rows > 0) {
-        // Buscar os dados do agendamento
-        $agendamento = $result->fetch_assoc();
-    } else {
-        echo "Agendamento não encontrado.";
+    // Verificar se o método de pagamento foi capturado corretamente
+    if (empty($nm_forma_pagamento)) {
+        echo "Erro: Forma de pagamento não selecionada.";
         exit;
     }
-} else {
-    echo "ID do horário não fornecido.";
-    exit;
-}
 
-// Consultar os dados do usuário (caso precise preencher o formulário)
-$usuarios_result = $conn->query("SELECT * FROM usuarios");
+    // Preparar e vincular
+    $stmt = $conn->prepare("INSERT INTO agendamentos (dt_corte, hr_corte, nm_corte, vl_corte, nm_forma_pagamento, nm_funcionario, fg_id_cortes, fg_id_funcionario) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    if (!$stmt) {
+        die("Erro na preparação da consulta: " . $conn->error);
+    }
+
+    $stmt->bind_param("sssdssss", $data, $horario, $servico, $valor, $nm_forma_pagamento, $atendente, $fg_id_cortes, $fg_id_funcionario);
+
+    // Executar a consulta
+    if ($stmt->execute()) {
+        // Redirecionar para uma página de sucesso ou exibir mensagem de sucesso
+        header("Location: logfunc.php"); // Alterar para o seu arquivo de redirecionamento
+        exit(); // Certifique-se de chamar exit após o redirecionamento
+    } else {
+        echo "Erro ao agendar: " . $stmt->error;
+    }
+
+    // Fechar a declaração e a conexão
+    $stmt->close();
+    $conn->close();
+}
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -44,17 +63,18 @@ $usuarios_result = $conn->query("SELECT * FROM usuarios");
 <body class="bg-gray-100">
 
 <div class="flex items-center p-4 bg-yellow-400 text-white">
-    <a href="editar_agendamento.php" class="flex items-center mr-4">
+    <a href="logfunc.php" class="flex items-center mr-4">
         <svg class="w-8 h-8 text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4l4 4"/>
         </svg>
     </a>
-    <h1 class="text-3xl font-bold flex-grow text-center">Editar Serviço</h1>
+    <h1 class="text-3xl font-bold flex-grow text-center">Agendamento</h1>
     <div class="mr-5"></div> <!-- Garante que o H1 fique centralizado -->
 </div>
 
+
 <div class="container mx-auto py-10 px-4"> <!-- Adicionei px-4 para espaçamento lateral -->
-    <form action="agendtd.php" method="post" class="bg-gray-800 shadow-md rounded-lg p-8 space-y-4"> 
+    <form action="logfunc.php" method="post" class="bg-gray-800 shadow-md rounded-lg p-8 space-y-4"> 
         <div class="mb-6">
             <label for="data" class="block text-gray-200 font-bold mb-2">Selecione a Data:</label>
             <input type="date" id="data" name="data" onchange="updateDisplayDate(this.value); verificarHorariosOcupados(this.value);" min="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d', strtotime('+7 days')); ?>" class="border border-gray-300 rounded-lg w-full py-2 px-3 bg-white text-gray-700 focus:outline-none focus:ring focus:ring-yellow-400" required>
@@ -104,7 +124,7 @@ $usuarios_result = $conn->query("SELECT * FROM usuarios");
             </div>
         </div>
 
-        <div class="mb-6">
+<div class="mb-6">
     <label class="block text-gray-200 font-bold mb-2">Selecione o Método de Pagamento:</label>
     <select id="paymentMethodSelect" name="selectMetods" class="border border-gray-300 rounded-lg w-full py-2 px-3 bg-white text-gray-700 focus:outline-none focus:ring focus:ring-yellow-400" onchange="updatePaymentMethod()">
         <option value="Dinheiro">Dinheiro</option>
@@ -133,11 +153,13 @@ function updatePaymentMethod() {
     document.getElementById("selectOptionEmployees").textContent = paymentMethod;
 }
 </script>
+
         <br><br>
-        <div class="flex justify-end space-x-4">
-            <button type="submit" class="bg-yellow-400 text-gray-900 font-bold py-2 px-4 rounded-lg w-full hover:bg-yellow-500">Salvar Alterações</button>
-            <a href="editar_agendamento.php" class="bg-gray-500 text-white px-4 py-2 rounded-lg">Cancelar</a>
-        </div>
+        <div class="mb-6 text-center">
+        <button type="submit" class="bg-yellow-400 text-gray-900 font-bold py-2 px-4 rounded-lg w-full hover:bg-yellow-500">
+                Confirmar Agendamento
+            </button>
+        </div> 
     </form>
 </div>
 <br>
@@ -272,6 +294,34 @@ function updatePaymentMethod() {
 </script>
 
 
-
+<footer class="bg-gray-800 py-10 bottom-0 w-full text-center">
+    <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+        <div class="sm:flex sm:items-center sm:justify-between">
+          <div class="flex items-center mb-4 sm:mb-0 rtl:space-x-reverse">
+            <img src="img/logo_markk.png" class="h-20" />
+            <span class="self-center text-2xl font-semibold whitespace-nowrap dark text-white">
+                Equipe MAR<span class="text-blue-700">KK</span>
+            </span>
+            <div class="ml-auto text-white">
+                <a href="https://www.instagram.com/markk.tcc/" class="hover:underline me-4 md:me-6">
+                  <i class="fab fa-instagram fa-1x mr-1"></i>
+                  Instagram da Equipe
+                </a>
+            </div>
+        </div>
+        <div class="text-white text-left">
+            <p>Transforme sua experiência com a MARKK!</p>
+        </div>
+        
+            <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-white sm:mb-0 dark:text-gray-400">
+              <li>
+                
+            </li>
+            
+        </div>
+        <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+        <span class="block text-sm text-white sm:text-center dark:text-gray-400">© 2024 <a href="" class="hover:underline">MARKK</a>. All Rights Reserved.</span>
+    </div>
+  </footer>
 </body>
 </html>

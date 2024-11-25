@@ -44,7 +44,7 @@ $usuarios_result = $conn->query("SELECT * FROM usuarios");
 <body class="bg-gray-100">
 
 <div class="flex items-center p-4 bg-yellow-400 text-white">
-    <a href="editar_agendamento.php" class="flex items-center mr-4">
+    <a href="logfunc.php" class="flex items-center mr-4">
         <svg class="w-8 h-8 text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4l4 4"/>
         </svg>
@@ -54,7 +54,7 @@ $usuarios_result = $conn->query("SELECT * FROM usuarios");
 </div>
 
 <div class="container mx-auto py-10 px-4"> <!-- Adicionei px-4 para espaçamento lateral -->
-    <form action="agendtd.php" method="post" class="bg-gray-800 shadow-md rounded-lg p-8 space-y-4"> 
+    <form action="logfunc.php" method="post" class="bg-gray-800 shadow-md rounded-lg p-8 space-y-4"> 
         <div class="mb-6">
             <label for="data" class="block text-gray-200 font-bold mb-2">Selecione a Data:</label>
             <input type="date" id="data" name="data" onchange="updateDisplayDate(this.value); verificarHorariosOcupados(this.value);" min="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d', strtotime('+7 days')); ?>" class="border border-gray-300 rounded-lg w-full py-2 px-3 bg-white text-gray-700 focus:outline-none focus:ring focus:ring-yellow-400" required>
@@ -136,7 +136,7 @@ function updatePaymentMethod() {
         <br><br>
         <div class="flex justify-end space-x-4">
             <button type="submit" class="bg-yellow-400 text-gray-900 font-bold py-2 px-4 rounded-lg w-full hover:bg-yellow-500">Salvar Alterações</button>
-            <a href="editar_agendamento.php" class="bg-gray-500 text-white px-4 py-2 rounded-lg">Cancelar</a>
+            <a href="logfunc.php" class="bg-gray-500 text-white px-4 py-2 rounded-lg">Cancelar</a>
         </div>
     </form>
 </div>

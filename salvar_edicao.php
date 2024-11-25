@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nm_corte = $_POST['nm_corte'];
     $valor_corte = $_POST['valor_corte'];
     $atendente = $_POST['atendente'];
-    $forma_pagamento = $_POST['forma_pagamento'];
+    $nm_forma_pagamento = $_POST['nm_forma_pagamento'];
     $id_usuario = $_POST['usuario']; // ID do usuário (funcionário)
 
     // Consulta SQL para atualizar o agendamento
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Vincular os parâmetros
-    $stmt->bind_param("sssssssi", $data_corte, $hora_corte, $nm_corte, $valor_corte, $atendente, $forma_pagamento, $id_usuario, $id_horario);
+    $stmt->bind_param("sssssssi", $data_corte, $hora_corte, $nm_corte, $valor_corte, $atendente, $nm_forma_pagamento, $id_usuario, $id_horario);
 
     // Executar a consulta
     if ($stmt->execute()) {

@@ -1,5 +1,6 @@
 <?php
-include_once('config.php'); // Inclua a configuração
+// Inclua o arquivo de configuração para o banco de dados
+include_once('config.php');
 
 // Verificar se o formulário foi enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -9,12 +10,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $servico = $_POST['selectedService'] ?? ''; // Nome do corte
     $valor = $_POST['vl_corte'] ?? '';
     $atendente = $_POST['selectedEmployee'] ?? '';
-    $forma_pagamento = 'Cartão'; // Substitua por um valor real ou variável
+    $nm_forma_pagamento = $_POST['selectMetods'] ?? ''; // Método de pagamento
     $fg_id_cortes = 1; // Substitua por um ID real de cortes
     $fg_id_funcionario = 1; // Substitua por um ID real de funcionário
 
     // Substitui vírgula por ponto no valor do corte
     $valor = str_replace(',', '.', $valor);
+
+    // Verificar se o método de pagamento foi capturado corretamente
+    if (empty($nm_forma_pagamento)) {
+        echo "Erro: Forma de pagamento não selecionada.";
+        exit;
+    }
 
     // Preparar e vincular
     $stmt = $conn->prepare("INSERT INTO agendamentos (dt_corte, hr_corte, nm_corte, vl_corte, nm_forma_pagamento, nm_funcionario, fg_id_cortes, fg_id_funcionario) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
@@ -22,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Erro na preparação da consulta: " . $conn->error);
     }
 
-    $stmt->bind_param("sssdssss", $data, $horario, $servico, $valor, $forma_pagamento, $atendente, $fg_id_cortes, $fg_id_funcionario);
+    $stmt->bind_param("sssdssss", $data, $horario, $servico, $valor, $nm_forma_pagamento, $atendente, $fg_id_cortes, $fg_id_funcionario);
 
     // Executar a consulta
     if ($stmt->execute()) {
@@ -71,7 +78,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="mb-6">
             <label for="data" class="block text-gray-200 font-bold mb-2">Selecione a Data:</label>
             <input type="date" id="data" name="data" onchange="updateDisplayDate(this.value); verificarHorariosOcupados(this.value);" min="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d', strtotime('+7 days')); ?>" class="border border-gray-300 rounded-lg w-full py-2 px-3 bg-white text-gray-700 focus:outline-none focus:ring focus:ring-yellow-400" required>
-            <p id="displayDate" class="mt-2 text-gray-300"></p>
         </div>
 
         <div class="mb-6">
@@ -118,37 +124,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
 
-        <div class="mb-6">
-    <div class="relative">
-        <label class="block text-gray-200 font-bold mb-2">Selecione o Método de Pagamento:</label>
-        <!-- Botão para mostrar o método selecionado -->
-        <button type="button" id="dropdownButtonmetods" onclick="toggleDropdownmetods()" class="border border-gray-300 rounded-lg w-full py-2 px-3 text-left bg-white text-gray-700">
-            Serviços Disponíveis
-        </button>
-        <!-- Dropdown de métodos de pagamento -->
-        <div class="absolute z-10 hidden bg-white border border-gray-300 mt-1 rounded-lg shadow-lg w-full" id="myDropdownmetods">
-            <a href="#" onclick="selectMetods('Dinheiro')" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 text-left">Dinheiro</a>
-            <a href="#" onclick="selectMetods('Pix')" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 text-left">Pix</a>
-            <a href="#" onclick="selectMetods('Cartão Débito/Crédito')" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 text-left">Cartão Débito/Crédito</a>
-        </div>
-    </div>
+<div class="mb-6">
+    <label class="block text-gray-200 font-bold mb-2">Selecione o Método de Pagamento:</label>
+    <select id="paymentMethodSelect" name="selectMetods" class="border border-gray-300 rounded-lg w-full py-2 px-3 bg-white text-gray-700 focus:outline-none focus:ring focus:ring-yellow-400" onchange="updatePaymentMethod()">
+        <option value="Dinheiro">Dinheiro</option>
+        <option value="Cartão de Crédito">Cartão de Crédito</option>
+        <option value="Pix">Pix</option>
+    </select>
 </div>
 
-        <input type="hidden" id="selectedEmployee" name="selectedEmployee" value="">
+<input type="hidden" id="selectedEmployee" name="selectedEmployee" value="">
+<br><br>
+
+<div class="mb-6">
+    <label class="text-gray-200 font-bold">Confirme as informações antes de agendar:</label>
+    <p class="text-gray-300">Data: <span class="font-semibold" id="displayDate"></span></p>
+    <p class="text-gray-300">Horário: <span class="font-semibold" id="selectedHorario"></span></p>
+    <p class="text-gray-300">Atendente: <span class="font-semibold" id="selectedEmployeeDisplay"></span></p>
+    <p class="text-gray-300">Forma de Pagamento: <span class="font-semibold" id="selectOptionEmployees"></span></p>
+
+    <h2 class="text-2xl font-bold mt-4 text-gray-300">Total: <span class="font-semibold" id="selectedCut">**,**</span></h2>
+</div>
+
+<script>
+// Função para atualizar a forma de pagamento exibida
+function updatePaymentMethod() {
+    var paymentMethod = document.getElementById("paymentMethodSelect").value;
+    document.getElementById("selectOptionEmployees").textContent = paymentMethod;
+}
+</script>
+
         <br><br>
-        <div class="mb-6">
-            <label class="text-gray-200 font-bold">Confirme as informações antes de agendar:</label>
-            <p class="text-gray-300">Data: <span class="font-semibold" id="displayDateOutput"></span></p>
-            <p class="text-gray-300">Horário: <span class="font-semibold" id="selectedHorario"></span></p>
-            <p class="text-gray-300">Atendente: <span class="font-semibold" id="selectedEmployeeDisplay"></span></p>
-            <p class="text-gray-300">Forma de Pagamento: <span class="font-semibold" id="displayPaymentMethod"></span></p>
-            
-            <h2 class="text-2xl font-bold mt-4 text-gray-300">Total: <span class="font-semibold" id="selectedCut">**,**</span></h2>
-        </div>
-        <br><br>
-        <div class="flex justify-center mb-6">
-            <button type="submit" id="submit" name="agendar" class="bg-yellow-400 hover:bg-yellow-600 text-white font-bold py-5 px-20 rounded focus:outline-none">Agendar</button>
-        </div>
+        <div class="mb-6 text-center">
+            <button type="submit" id="agendar" name="agendar" class="bg-yellow-400 text-gray-900 font-bold py-2 px-4 rounded-lg w-full hover:bg-yellow-500">
+                Confirmar Agendamento
+            </button>
+        </div> 
     </form>
 </div>
 <br>
@@ -195,9 +206,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         horariosOcupados = dataOcupados.horarios;
         gerarHorarios(); // Regenerar os horários disponíveis após a verificação
     }
-     
-    function updateDisplayDate(data) {
-        document.getElementById('displayDateOutput').textContent = data;
+
+    function updateDisplayDate(date) {
+        document.getElementById('displayDate').innerText = '' + date;
+        document.getElementById('displayDateOutput').textContent = date;  // Atualiza a data na interface
     }
 
     function selectOptionCuts(price, service) {
@@ -205,17 +217,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         document.getElementById('vl_corte').value = price; 
         document.getElementById('dropdownButtonCuts').textContent = service; 
         document.getElementById('selectedCut').textContent = price;
-        toggleDropdownCuts(); 
+        toggleDropdownCuts(); // Fecha o dropdown de cortes
     }
 
     function selectOptionEmployees(employee) {
         document.getElementById('dropdownButtonEmployees').textContent = employee;
         document.getElementById('selectedEmployeeDisplay').textContent = employee;
-
-        // Armazenar o atendente no campo oculto
-        document.getElementById('selectedEmployee').value = employee;
-
-        toggleDropdownEmployees();
+        document.getElementById('selectedEmployee').value = employee; // Armazenar o atendente
+        toggleDropdownEmployees(); // Fecha o dropdown de atendentes
     }
 
     function selectOptionHorario(horario) {
@@ -223,22 +232,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         document.getElementById('dropdownButtonHorario').textContent = horario;
         document.getElementById('selectedHorario').textContent = horario;
         document.getElementById('hr_corte').value = horario; // Definir o valor do horário oculto
-        toggleDropdownHorario(); 
+        toggleDropdownHorario(); // Fecha o dropdown de horários
     }
 
     function toggleDropdownCuts() {
-        const dropdown = document.getElementById('myDropdownCuts');
-        dropdown.classList.toggle("hidden");
+        document.getElementById("myDropdownCuts").classList.toggle("hidden");
     }
 
     function toggleDropdownEmployees() {
-        const dropdown = document.getElementById('myDropdownEmployees');
-        dropdown.classList.toggle("hidden");
+        document.getElementById("myDropdownEmployees").classList.toggle("hidden");
     }
 
     function toggleDropdownHorario() {
-        const dropdown = document.getElementById('myDropdownHorario');
-        dropdown.classList.toggle("hidden");
+        document.getElementById("myDropdownHorario").classList.toggle("hidden");
+    }
+
+    function toggleDropdownmetods() {
+        document.getElementById("myDropdownmetods").classList.toggle("hidden");
+    }
+
+    function selectMetods(paymentMethod) {
+        var dropdown = document.getElementById("myDropdownmetods");
+        dropdown.classList.add("hidden"); // Fecha o dropdown
+        document.getElementById("dropdownButtonmetods").textContent = paymentMethod;
+        document.getElementById("displayPaymentMethod").innerHTML = paymentMethod; // Exibe o método de pagamento
     }
 
     function gerarHorarios() {
@@ -274,28 +291,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         gerarHorarios();
         verificarHorariosOcupados(document.getElementById('data').value);
     };
-/// Função para alternar a visibilidade do dropdown
-function toggleDropdownmetods() {
-    var dropdown = document.getElementById("myDropdownmetods");
-    dropdown.classList.toggle("hidden"); // Alterna entre visível e oculto
-}
-
-// Função para selecionar um método de pagamento e exibir abaixo do dropdown
-function selectMetods(paymentMethod) {
-    // Fecha o dropdown
-    var dropdown = document.getElementById("myDropdownmetods");
-    dropdown.classList.add("hidden");
-
-    // Atualiza o texto do botão com o método selecionado
-    document.getElementById("dropdownButtonmetods").textContent = paymentMethod;
-
-    // Exibe o método selecionado no <span> dentro do parágrafo
-    var displayElement = document.getElementById("displayPaymentMethod");
-    displayElement.innerHTML = paymentMethod; // Atualiza o conteúdo do <span> com o método selecionado
-}
-
-
 </script>
+
 
 
 </body>

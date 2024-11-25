@@ -5,7 +5,7 @@ include_once('config.php'); // Inclua a configuração
 $nome_atendente = isset($_POST['nome_atendente']) ? $_POST['nome_atendente'] : '';
 
 // Prepara a consulta com base no nome do atendente
-$sql = "SELECT * FROM agendamentos";
+$sql = "SELECT * FROM agendamentos ORDER BY id_horario DESC";  // Ordena do último para o primeiro
 if ($nome_atendente) {
     $sql .= " WHERE nm_funcionario LIKE '%" . $conn->real_escape_string($nome_atendente) . "%'";
 }
@@ -13,7 +13,6 @@ $result = $conn->query($sql);
 
 // Consulta para pegar os dados do usuário
 $usuarios = $conn->query("SELECT nm_usuario, nr_telefone FROM usuarios");
-
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -53,15 +52,18 @@ $usuarios = $conn->query("SELECT nm_usuario, nr_telefone FROM usuarios");
                 </div>
             </div>
             <h3 class="font-semibold mt-4">Nome: 
-                <?php
-                // Consulta para obter o primeiro usuário, ajuste se necessário
-                $usuarios_result = $conn->query("SELECT nm_usuario, nr_telefone FROM usuarios LIMIT 1");
-                if ($usuario_row = mysqli_fetch_assoc($usuarios_result)) {
-                    echo htmlspecialchars($usuario_row['nm_usuario']);
-                } else {
-                    echo "Usuário não encontrado";
-                }
-                ?>
+            <?php
+// Consulta para obter o primeiro usuário, ajuste se necessário
+$usuarios_result = $conn->query("SELECT nm_usuario, nm_sobrenome, nr_telefone FROM usuarios LIMIT 1");
+
+if ($usuario_row = mysqli_fetch_assoc($usuarios_result)) {
+    // Exibe o nome e o sobrenome com um espaço entre eles
+    echo htmlspecialchars($usuario_row['nm_usuario']) . ' ' . htmlspecialchars($usuario_row['nm_sobrenome']);
+} else {
+    echo "Usuário não encontrado";
+}
+?>
+
             </h3>
             <p>Número: 
                 <?php
@@ -73,18 +75,17 @@ $usuarios = $conn->query("SELECT nm_usuario, nr_telefone FROM usuarios");
                 ?>
             </p>
             <p>Tipo de Corte: <span class="font-normal"><?php echo $cortes_cads['nm_corte']; ?></span></p>
-            <p>Forma de Pagamento: </p>
+            <p>Forma de Pagamento: <span class="font-normal"><?php echo $cortes_cads['nm_forma_pagamento']; ?></span></p>
             <p class="font-bold">Valor: <span class="font-normal"><?php echo $cortes_cads['vl_corte']; ?></span></p>
 
             <!-- Botões de Editar e Excluir -->
             <div class="mt-4 flex justify-end space-x-4">
-<!-- Botão Editar -->
-<button  
-    class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
-    onclick="window.location.href='editar_form.php?id=<?php echo $cortes_cads['id_horario']; ?>'">
-    Editar 
-</button>
-
+                <!-- Botão Editar -->
+                <button  
+                    class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+                    onclick="window.location.href='editar_form.php?id=<?php echo $cortes_cads['id_horario']; ?>'">
+                    Editar 
+                </button>
 
                 <!-- Botão Excluir -->
                 <button 
@@ -96,6 +97,38 @@ $usuarios = $conn->query("SELECT nm_usuario, nr_telefone FROM usuarios");
         </div>
     <?php } ?>
 </div>
+
+<br><br><br>
+
+<footer class="bg-gray-800 py-10 bottom-0 w-full text-center">
+  <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+      <div class="sm:flex sm:items-center sm:justify-between">
+        <div class="flex items-center mb-4 sm:mb-0 rtl:space-x-reverse">
+          <img src="img/logo_markk.png" class="h-20" />
+          <span class="self-center text-2xl font-semibold whitespace-nowrap dark text-white">
+              Equipe MAR<span class="text-blue-700">KK</span>
+          </span>
+          <div class="ml-auto text-white">
+              <a href="https://www.instagram.com/markk.tcc/" class="hover:underline me-4 md:me-6">
+                <i class="fab fa-instagram fa-1x mr-1"></i>
+                Instagram da Equipe
+              </a>
+          </div>
+      </div>
+      <div class="text-white text-left">
+          <p>Transforme sua experiência com a MARKK!</p>
+      </div>
+      
+          <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-white sm:mb-0 dark:text-gray-400">
+            <li>
+              
+          </li>
+          
+      </div>
+      <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+      <span class="block text-sm text-white sm:text-center dark:text-gray-400">© 2024 <a href="" class="hover:underline">MARKK</a>. All Rights Reserved.</span>
+  </div>
+</footer>
 <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
     <div class="bg-green-500 text-white p-4 mb-4 rounded-lg">
         Agendamento atualizado com sucesso!

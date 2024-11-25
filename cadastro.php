@@ -3,12 +3,12 @@ if (isset($_POST['submit'])) {
     include_once('config.php');
 
     $nm_usuario = mysqli_real_escape_string($conn, $_POST['nm_usuario']);
-    $nm_sobrenome_usuario = mysqli_real_escape_string($conn, $_POST['nm_sobrenome_usuario']);
+    $nm_sobrenome = mysqli_real_escape_string($conn, $_POST['nm_sobrenome']);
     $nr_usuario = mysqli_real_escape_string($conn, $_POST['nr_usuario']);
     $nm_senha = mysqli_real_escape_string($conn, $_POST['nm_senha']);
 
     // Consulta para inserir dados
-    $cadastrar = mysqli_query($conn, "INSERT INTO usuarios (nm_usuario, nr_telefone, nm_senha) VALUES ('$nm_usuario', '$nr_usuario', '$nm_senha')");
+    $cadastrar = mysqli_query($conn, "INSERT INTO usuarios (nm_usuario, nm_sobrenome, nr_telefone, nm_senha) VALUES ('$nm_usuario','$nm_sobrenome', '$nr_usuario', '$nm_senha')");
 
     // Se o cadastro for bem-sucedido, redireciona para inicio.html
     if ($cadastrar) {
@@ -83,9 +83,9 @@ if (isset($_POST['submit'])) {
 </div>
 
 <div class="mb-4">
-    <label class="block text-gray-300 text-sm font-semibold mb-2" for="nm_sobrenome_usuario">Sobrenome</label>
+    <label class="block text-gray-300 text-sm font-semibold mb-2" for="nm_sobrenome">Sobrenome</label>
     <input class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-yellow-300" 
-           name="nm_sobrenome_usuario" type="text" placeholder="Adicione seu Sobrenome" required 
+           name="nm_sobrenome" type="text" placeholder="Adicione seu Sobrenome" required 
            oninput="validarEntrada(this)" />
 </div>
 

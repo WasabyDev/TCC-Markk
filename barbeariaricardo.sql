@@ -82,7 +82,8 @@ CREATE TABLE `tipos_corte` (
 
 CREATE TABLE `usuarios` (
   `id_usuario` int NOT NULL,
-  `nm_usuario` varchar(100) NOT NULL,
+  `nm_usuario` varchar(50) NOT NULL,
+  `nm_sobrenome` varchar(50) NOT NULL,
   `nr_telefone` varchar(15) DEFAULT NULL,
   `nm_senha` varchar(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
